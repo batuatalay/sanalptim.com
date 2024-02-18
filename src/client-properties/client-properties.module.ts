@@ -10,5 +10,6 @@ import { ClientPropertySchema } from './model/client-properties.model';
   ],
   controllers: [ClientPropertiesController],
   providers: [ClientPropertiesService],
+  exports : [ClientPropertiesService],
 })
 export class ClientPropertiesModule {}
