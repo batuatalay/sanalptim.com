@@ -5,6 +5,7 @@ export class CreateClientDto {
     password : string;
     created_at : Date;
     last_login : Date;
+    properties : string;
 }
 
 export class updateClientDto {
@@ -14,4 +15,5 @@ export class updateClientDto {
     password : string;
     created_at : Date;
     last_login : Date;
+    properties : string;
 }

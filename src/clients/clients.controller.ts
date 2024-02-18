@@ -1,10 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto, updateClientDto } from './dto/client.dto';
+import { ClientPropertiesService } from 'src/client-properties/client-properties.service';
+import { Any } from 'typeorm';
 
 @Controller('client')
 export class ClientsController {
-  constructor(private readonly clientsService: ClientsService) {}
+  constructor(private clientsService: ClientsService,
+    private clientProperty: ClientPropertiesService) {}
 
   @Post()
   create(@Body() createClientDto: CreateClientDto) {
@@ -17,8 +20,11 @@ export class ClientsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientsService.find(id);
+  async findOne(@Param('id') id: string) {
+    let properties = await this.clientProperty.findByClientID(id);
+    let client = await this.clientsService.find(id);
+    client.properties = properties;
+    return client;
   }
 
   @Patch(':id')
