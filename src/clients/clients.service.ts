@@ -10,7 +10,10 @@ export class ClientsService extends ResourceService<
 clientModel,
 CreateClientDto,
 updateClientDto> { 
-  constructor(@InjectModel('Client') clientMongo : Model <clientModel>) {
+  constructor(@InjectModel('Client') private readonly clientMongo : Model <clientModel>) {
     super(clientMongo);
+  }
+  async findByStatus (status : string) {
+    return this.clientMongo.find({"status" : status}).exec();
   }
 }
