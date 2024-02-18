@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ClientsService } from './clients.service';
 import { CreateClientDto, updateClientDto } from './dto/client.dto';
 import { ClientPropertiesService } from 'src/client-properties/client-properties.service';
-import { Any } from 'typeorm';
 
 @Controller('client')
 export class ClientsController {
@@ -25,6 +24,11 @@ export class ClientsController {
     let client = await this.clientsService.find(id);
     client.properties = properties;
     return client;
+  }
+  
+  @Get('status/:status') 
+  async findByStatus (@Param('status') status : string) {
+    return this.clientsService.findByStatus(status);
   }
 
   @Patch(':id')
