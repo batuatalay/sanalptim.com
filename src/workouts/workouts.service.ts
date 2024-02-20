@@ -13,4 +13,7 @@ UpdateWorkoutDto> {
   constructor (@InjectModel('Workout') private readonly workoutMongo : Model <workoutModel>) {
     super(workoutMongo);
   }
+  async findByClientID (clientID) {
+    return this.workoutMongo.find({'client_id': clientID});
+  }
 }
