@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ClientPropertiesService } from './client-properties.service';
 import { CreateClientPropertyDto } from './dto/clientProperty.dto';
-import { UpdateClientPropertyDto } from './dto/update-client-property.dto';
 
 @Controller('clientProperties')
 export class ClientPropertiesController {

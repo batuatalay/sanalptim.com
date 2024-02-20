@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClientPropertyDto } from './dto/clientProperty.dto';
-import { UpdateClientPropertyDto } from './dto/update-client-property.dto';
+import { CreateClientPropertyDto, UpdateClientPropertyDto } from './dto/clientProperty.dto';
 import { ResourceService } from 'libs/resorce.service';
 import { clientPropertyModel } from './model/client-properties.model';
 import { InjectModel } from '@nestjs/mongoose';

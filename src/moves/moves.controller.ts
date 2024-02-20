@@ -21,6 +21,10 @@ export class MovesController {
     return this.movesService.findByCode(code);
   }
 
+  async find(@Param('id') id : string) {
+    return this.movesService.find(id);
+  }
+
   @Get('category/:code')
   findMovesByParentID (@Param('code') code: string) {
     return this.movesService.findByParentID(code);
