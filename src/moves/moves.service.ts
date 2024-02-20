@@ -22,5 +22,10 @@ UpdateMoveDto
   async findByCode (code : string) {
      return this.moveMongo.find({"code" : code}).exec();
   }
+
+  async findByID(id : string) {
+    let move = await this.moveMongo.find({'_id': id}).exec();
+    return move[0];
+  }
   
 }

@@ -7,6 +7,7 @@ import { ClientPropertiesModule } from './client-properties/client-properties.mo
 import { CoachsModule } from './coachs/coachs.module';
 import { MovesModule } from './moves/moves.module';
 import environment from 'environment';
+import { WorkoutsModule } from './workouts/workouts.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import environment from 'environment';
     MongooseModule.forRoot(environment.mongoUrl),
     ClientPropertiesModule,
     CoachsModule,
-    MovesModule
+    MovesModule,
+    WorkoutsModule
   ],
   controllers: [AppController],
   providers: [AppService],
