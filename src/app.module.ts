@@ -5,6 +5,7 @@ import { ClientsModule } from './clients/clients.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClientPropertiesModule } from './client-properties/client-properties.module';
 import { CoachsModule } from './coachs/coachs.module';
+import { MovesModule } from './moves/moves.module';
 import environment from 'environment';
 
 @Module({
@@ -12,7 +13,8 @@ import environment from 'environment';
     ClientsModule,
     MongooseModule.forRoot(environment.mongoUrl),
     ClientPropertiesModule,
-    CoachsModule
+    CoachsModule,
+    MovesModule
   ],
   controllers: [AppController],
   providers: [AppService],
