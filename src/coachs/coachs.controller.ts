@@ -18,9 +18,34 @@ export class CoachsController {
   }
 
   @Get()
-  findAll() {
-    return this.coachsService.findAll();
+  async get(@Body() body: any) {
+    if (body.action == "" || body.value == "") {
+      return "Please give true action and value ";
+    }
+    switch (body.action) {
+      case "all":
+        return this.coachsService.findAll();
+      case "id":
+        return this.coachsService.find(body.value);
+      case "status":
+        return this.coachsService.findByStatus(body.value);
+      case "workout":
+        let workouts =[];
+        let workoutResults = await this.workout.findByCoachID(body.value);
+        await Promise.all(workoutResults.map(async item => {
+          let client = await this.client.find(item.client_id);
+          let obj = {
+            title : item.title,
+            desc: item.description,
+            client : client.name,
+            client_mail : client.mail
+          }
+          workouts.push(obj);
+        }));
+        return workouts;
+    }
   }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
