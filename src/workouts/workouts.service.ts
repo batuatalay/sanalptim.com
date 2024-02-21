@@ -16,4 +16,8 @@ UpdateWorkoutDto> {
   async findByClientID (clientID) {
     return this.workoutMongo.find({'client_id': clientID});
   }
+
+  async findByCoachID (coachID) {
+    return this.workoutMongo.find({'coach_id': coachID});
+  }
 }
