@@ -18,7 +18,7 @@ export class ClientsController {
   }
   @Get()
   async get(@Body() body: any) {
-    if (body.action == null || body.value == null) {
+    if (body.action == "" || body.value == "") {
       return "Please give true action and value ";
     }
     switch (body.action) {
