@@ -14,6 +14,12 @@ export class WorkoutsController {
   }
   @Get()
   async get(@Body() body: any) {
+    /*
+      {
+        "action" : "all",
+        "value" : "all"
+      }
+    */
     if (body.action == "" || body.value == "") {
       return "Please give true action and value ";
     }
