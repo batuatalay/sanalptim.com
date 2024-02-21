@@ -16,4 +16,8 @@ updateClientDto> {
   async findByStatus (status : string) {
     return this.clientMongo.find({"status" : status}).exec();
   }
+  
+  async findByUsername (username : string) {
+    return this.clientMongo.find({'username' : username});
+  }
 }

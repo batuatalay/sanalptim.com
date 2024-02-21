@@ -54,6 +54,17 @@ export class ClientsController {
     return result;
   }
 
+  @Get ('username/:username')
+  async findClientByUsername (@Param('username') username : string) {
+    let client = await this.clientsService.findByUsername(username);
+    let properties = await this.clientProperty.findByClientID(client[0]._id.toString());
+    let result = {
+      client : client,
+      properties : properties
+    }
+    return result;
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClientDto: updateClientDto) {
     return this.clientsService.update(id, updateClientDto);
