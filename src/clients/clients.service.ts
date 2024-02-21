@@ -20,4 +20,7 @@ updateClientDto> {
   async findByUsername (username : string) {
     return this.clientMongo.find({'username' : username});
   }
+  async findByMail (mail : string) {
+    return this.clientMongo.find({'mail' : mail});
+  }
 }

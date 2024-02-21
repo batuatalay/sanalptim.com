@@ -16,53 +16,57 @@ export class ClientsController {
   create(@Body() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
   }
-
   @Get()
-  findAll() {
-    return this.clientsService.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    let properties = await this.clientProperty.findByClientID(id);
-    let client = await this.clientsService.find(id);
-    client.properties = properties;
-    return client;
-  }
-  
-  @Get('status/:status') 
-  async findByStatus (@Param('status') status : string) {
-    return this.clientsService.findByStatus(status);
-  }
-
-  @Get('workout/:id') 
-  async findClientWorkout (@Param('id') id : string) {
-    let client = await this.clientsService.find(id);
-    let workout = await this.workout.findByClientID(id);
-    let workoutMoves = workout[0].moves.split(',');
-    let moves = [] ;
-    await Promise.all(workoutMoves.map(async item => {
-      let move = await this.moveService.findByID(item);
-      moves.push(move);
-
-    }));
-    let result = {
-    client : client,
-    workout : workout,
-    moves : moves
+  async get(@Body() body: any) {
+    if (body.action == null || body.value == null) {
+      return "Please give true action and value ";
     }
-    return result;
-  }
+    switch (body.action) {
+      case "id":
+        let properties = await this.clientProperty.findByClientID(body.value);
+        let client = await this.clientsService.find(body.value);
+        let idResult = {
+          client : client,
+          properties : properties
+        }
+        return idResult;
+      case "status":
+        return this.clientsService.findByStatus(body.value);
+      case "workout":
+        let client4Workout = await this.clientsService.find(body.value);
+        let workout = await this.workout.findByClientID(body.value);
+        let workoutMoves = workout[0].moves.split(',');
+        let moves = await Promise.all(workoutMoves.map(async item => {
+          return this.moveService.findByID(item);
+        }));
+        let result = {
+          client: client4Workout,
+          workout: workout,
+          moves: moves
+        };
+        return result;
+      case "username":
+        let userClient = await this.clientsService.findByUsername(body.value);
+        let userProperties = await this.clientProperty.findByClientID(userClient[0]._id.toString());
+        let userResult = {
+          client: userClient,
+          properties: userProperties
+        };
+        return userResult;
+      case "mail":
+        let mailClient = await this.clientsService.findByMail(body.value);
+        let mailProperties = await this.clientProperty.findByClientID(mailClient[0]._id.toString());
+        let mailResult = {
+          client: mailClient,
+          properties: mailProperties
+        };
+        return mailResult;
 
-  @Get ('username/:username')
-  async findClientByUsername (@Param('username') username : string) {
-    let client = await this.clientsService.findByUsername(username);
-    let properties = await this.clientProperty.findByClientID(client[0]._id.toString());
-    let result = {
-      client : client,
-      properties : properties
+      case "all":
+        return this.clientsService.findAll();
+      default:
+        return "Please give true action and value ";
     }
-    return result;
   }
 
   @Patch(':id')
