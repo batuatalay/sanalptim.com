@@ -12,29 +12,30 @@ export class WorkoutsController {
   create(@Body() createWorkoutDto: CreateWorkoutDto) {
     return this.workoutsService.create(createWorkoutDto);
   }
-
   @Get()
-  findAll() {
-    return this.workoutsService.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    let workout = await this.workoutsService.find(id);
-    let workoutMoves = workout.moves.split(',');
-    let moves = [] ;
-    await Promise.all(workoutMoves.map(async item => {
-      let move = await this.moveService.findByID(item);
-      moves.push(move);
-
-    }));
-    let result = {
-      details : workout,
-      moves: moves
+  async get(@Body() body: any) {
+    if (body.action == "" || body.value == "") {
+      return "Please give true action and value ";
     }
-    return result;
-  }
+    switch (body.action) {
+      case "all":
+        return this.workoutsService.findAll();
+      case "id":
+        let workout = await this.workoutsService.find(body.value);
+        let workoutMoves = workout.moves.split(',');
+        let moves = [] ;
+        await Promise.all(workoutMoves.map(async item => {
+          let move = await this.moveService.findByID(item);
+          moves.push(move);
 
+        }));
+        let result = {
+          details : workout,
+          moves: moves
+        }
+        return result;
+        }
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkoutDto: UpdateWorkoutDto) {
     return this.workoutsService.update(id, updateWorkoutDto);
