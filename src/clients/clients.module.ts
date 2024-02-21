@@ -16,5 +16,6 @@ import { MovesModule } from 'src/moves/moves.module';
   MovesModule],
   controllers: [ClientsController],
   providers: [ClientsService],
+  exports: [ClientsService]
 })
 export class ClientsModule {}
