@@ -45,35 +45,6 @@ export class CoachsController {
         return workouts;
     }
   }
-
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coachsService.find(id);
-  }
-
-  @Get('status/:status')
-  findByStatus(@Param('status') status : string) {
-    return this.coachsService.findByStatus(status);
-  }
-
-  @Get('workout/:id')
-  async findWorkoutByCoach(@Param('id') id : string) {
-    let workouts =[];
-    let workoutResults = await this.workout.findByCoachID(id);
-    await Promise.all(workoutResults.map(async item => {
-      let client = await this.client.find(item.client_id);
-      let obj = {
-        title : item.title,
-        desc: item.description,
-        client : client.name,
-        client_mail : client.mail
-      }
-      workouts.push(obj);
-    }));
-    return workouts;
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCoachDto: UpdateCoachDto) {
     return this.coachsService.update(id, updateCoachDto);
