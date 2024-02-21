@@ -10,24 +10,22 @@ export class MovesController {
   create(@Body() createMoveDto: CreateMoveDto) {
     return this.movesService.create(createMoveDto);
   }
-
   @Get()
-  findAll() {
-    return this.movesService.findAll();
-  }
-
-  @Get(':code')
-  findOne(@Param('code') code: string) {
-    return this.movesService.findByCode(code);
-  }
-
-  async find(@Param('id') id : string) {
-    return this.movesService.find(id);
-  }
-
-  @Get('category/:code')
-  findMovesByParentID (@Param('code') code: string) {
-    return this.movesService.findByParentID(code);
+  async get(@Body() body: any) {
+    if (body.action == "" || body.value == "") {
+      return "Please give true action and value ";
+    }
+    switch (body.action) {
+      case 'code':
+        let codeMove = await this.movesService.findByCode(body.value);
+        return codeMove[0];
+      case 'id':
+        return this.movesService.find(body.value);
+      case 'category':
+        return this.movesService.findByParentID(body.value);
+      case 'all':
+        return this.movesService.findAll();
+    }
   }
 
   @Patch(':id')
