@@ -27,5 +27,14 @@ UpdateMoveDto
     let move = await this.moveMongo.find({'_id': id}).exec();
     return move[0];
   }
+
+  async find4workout (ids : string) {
+    let result = [];
+    let moves = ids.split(',');
+   await Promise.all(moves.map(async item => {
+      result.push(await this.findByID(item));
+    }));
+    return result;
+  }
   
 }

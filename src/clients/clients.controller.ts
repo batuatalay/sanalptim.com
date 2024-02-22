@@ -29,45 +29,15 @@ export class ClientsController {
     }
     switch (body.action) {
       case "id":
-        let properties = await this.clientProperty.findByClientID(body.value);
-        let client = await this.clientsService.find(body.value);
-        let idResult = {
-          client : client,
-          properties : properties
-        }
-        return idResult;
+        return await this.clientsService.find4ID(body.value);
       case "status":
         return this.clientsService.findByStatus(body.value);
       case "workout":
-        let client4Workout = await this.clientsService.find(body.value);
-        let workout = await this.workout.findByClientID(body.value);
-        let workoutMoves = workout[0].moves.split(',');
-        let moves = await Promise.all(workoutMoves.map(async item => {
-          return this.moveService.findByID(item);
-        }));
-        let result = {
-          client: client4Workout,
-          workout: workout,
-          moves: moves
-        };
-        return result;
+        return await this.clientsService.clientWorkout(body.value);
       case "username":
-        let userClient = await this.clientsService.findByUsername(body.value);
-        let userProperties = await this.clientProperty.findByClientID(userClient[0]._id.toString());
-        let userResult = {
-          client: userClient,
-          properties: userProperties
-        };
-        return userResult;
+        return await this.clientsService.findByUsername(body.value);
       case "mail":
-        let mailClient = await this.clientsService.findByMail(body.value);
-        let mailProperties = await this.clientProperty.findByClientID(mailClient[0]._id.toString());
-        let mailResult = {
-          client: mailClient,
-          properties: mailProperties
-        };
-        return mailResult;
-
+        return await this.clientsService.findByMail(body.value);
       case "all":
         return this.clientsService.findAll();
       default:
