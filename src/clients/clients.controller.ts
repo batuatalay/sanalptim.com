@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto, updateClientDto } from './dto/client.dto';
 import { ClientPropertiesService } from 'src/client-properties/client-properties.service';
@@ -17,7 +17,7 @@ export class ClientsController {
     return this.clientsService.create(createClientDto);
   }
   @Get()
-  async get(@Body() body: any) {
+  async get(@Query() body: any) {
     /*
       {
         "action" : "all",
