@@ -27,20 +27,8 @@ export class WorkoutsController {
       case "all":
         return this.workoutsService.findAll();
       case "id":
-        let workout = await this.workoutsService.find(body.value);
-        let workoutMoves = workout.moves.split(',');
-        let moves = [] ;
-        await Promise.all(workoutMoves.map(async item => {
-          let move = await this.moveService.findByID(item);
-          moves.push(move);
-
-        }));
-        let result = {
-          details : workout,
-          moves: moves
-        }
-        return result;
-        }
+        return this.workoutsService.find4ID(body.value);
+    }
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkoutDto: UpdateWorkoutDto) {
