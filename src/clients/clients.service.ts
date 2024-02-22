@@ -4,7 +4,6 @@ import { clientModel } from './model/client.model';
 import { ResourceService } from 'libs/resorce.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { clientPropertyModel } from 'src/client-properties/model/client-properties.model';
 import { ClientPropertiesService } from 'src/client-properties/client-properties.service';
 import { WorkoutsService } from 'src/workouts/workouts.service';
 import { MovesService } from 'src/moves/moves.service';
@@ -58,7 +57,7 @@ updateClientDto> {
     let client = await this.clientMongo.find({'username' : username});
     let clientProperties = await this.findClientProperties(client[0]._id.toString());
     let result = {
-      client : client,
+      client : client[0],
       properties : clientProperties
     }
     return result;
@@ -67,7 +66,7 @@ updateClientDto> {
     let client = await this.clientMongo.find({'mail' : mail});
     let clientProperties = await this.findClientProperties(client[0]._id.toString());
     let result = {
-      client : client,
+      client : client[0],
       properties : clientProperties
     }
     return result;

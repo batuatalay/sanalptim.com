@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CoachsService } from './coachs.service';
 import { CreateCoachDto, UpdateCoachDto } from './dto/coach.dto';
 import { WorkoutsService } from 'src/workouts/workouts.service';
@@ -18,7 +18,7 @@ export class CoachsController {
   }
 
   @Get()
-  async get(@Body() body: any) {
+  async get(@Query() body: any) {
     /*
       {
         "action" : "all",
