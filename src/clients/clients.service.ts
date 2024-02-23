@@ -70,7 +70,7 @@ updateClientDto> {
       }
     }
   }
-  async findByMail (mail : string) {
+  async findByMail (mail : string) : Promise <any> {
     let client = await this.clientMongo.find({'mail' : mail});
     if(client.length > 0) {
       let clientProperties = await this.findClientProperties(client[0]._id.toString());

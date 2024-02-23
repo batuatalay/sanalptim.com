@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ClientPropertiesService } from './client-properties.service';
-import { CreateClientPropertyDto } from './dto/clientProperty.dto';
+import { CreateClientPropertyDto, UpdateClientPropertyDto } from './dto/clientProperty.dto';
 
 @Controller('clientProperties')
 export class ClientPropertiesController {
@@ -22,20 +22,8 @@ export class ClientPropertiesController {
   }
 
   @Patch(':clientID')
-  async update(@Param('clientID') clientID: string, @Body() CreateClientPropertyDto: CreateClientPropertyDto) {
-    let properties =await this.clientPropertiesService.findByClientID(clientID);
-    let flag = false;
-    properties.map(item => {
-      if (item.prop == CreateClientPropertyDto.prop) {
-        item.value = CreateClientPropertyDto.value;
-        flag = true;
-      }
-    })
-    if(flag) {
-      return this.clientPropertiesService.updateProperties(clientID, properties);
-    } else {
-      return "property doesn't found";
-    }
+  async update(@Param('clientID') clientID: string, @Body() createClientPropertyDto: CreateClientPropertyDto) {
+    return this.clientPropertiesService.updateProperties(clientID, createClientPropertyDto);
   }
 
   @Delete(':id')

@@ -59,7 +59,20 @@ export class ClientsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: updateClientDto) {
+  async update(@Param('id') id: string, @Body() updateClientDto: updateClientDto) {
+    let usernameExist = await this.clientsService.findByUsername(updateClientDto.username);
+    let mailExist = await this.clientsService.findByMail(updateClientDto.mail);
+    if(usernameExist.status == 200 && usernameExist.client._id != id) {
+      return {
+        errorCode : 400,
+        detail : "Bu kullanıcı adında kullanıcı mevcut lütfen başka bir kullanıcı adı kullanınız"
+      };
+    } else if (mailExist.status == 200 && mailExist.client._id != id) {
+      return {
+        errorCode : 400,
+        detail : "Bu mail adresinde kullanıcı mevcut lütfen başka bir mail adresi kullanınız"
+      };
+     }
     return this.clientsService.update(id, updateClientDto);
   }
 
