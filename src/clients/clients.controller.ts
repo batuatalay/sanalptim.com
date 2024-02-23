@@ -13,7 +13,20 @@ export class ClientsController {
     private moveService : MovesService) {}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
+  async create(@Body() createClientDto: CreateClientDto) {
+    let usernameExist = await this.clientsService.findByUsername(createClientDto.username);
+    let mailExist = await this.clientsService.findByMail(createClientDto.mail);
+    if(usernameExist.status == 200) {
+      return {
+        status : 400,
+        detail : "Bu kullanıcı adında kullanıcı mevcut lütfen başka bir kullanıcı adı kullanınız"
+      };
+    } else if (mailExist.status == 200) {
+      return {
+        status : 400,
+        detail : "Bu mail adresinde kullanıcı mevcut lütfen başka bir mail adresi kullanınız"
+      };
+     }
     return this.clientsService.create(createClientDto);
   }
   @Get()
