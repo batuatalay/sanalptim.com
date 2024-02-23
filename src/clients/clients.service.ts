@@ -55,20 +55,36 @@ updateClientDto> {
   
   async findByUsername (username : string) : Promise <any> {
     let client = await this.clientMongo.find({'username' : username});
-    let clientProperties = await this.findClientProperties(client[0]._id.toString());
-    let result = {
-      client : client[0],
-      properties : clientProperties
+    if(client.length > 0) {
+      let clientProperties = await this.findClientProperties(client[0]._id.toString());
+      let result = {
+        status : 200,
+        client : client[0],
+        properties : clientProperties
+      }
+      return result;
+    } else {
+      return {
+        status : 400,
+        detail : "kullanıcı bulunamadı"
+      }
     }
-    return result;
   }
   async findByMail (mail : string) {
     let client = await this.clientMongo.find({'mail' : mail});
-    let clientProperties = await this.findClientProperties(client[0]._id.toString());
-    let result = {
-      client : client[0],
-      properties : clientProperties
+    if(client.length > 0) {
+      let clientProperties = await this.findClientProperties(client[0]._id.toString());
+      let result = {
+        status : 200,
+        client : client[0],
+        properties : clientProperties
+      }
+      return result;
+    } else {
+      return {
+        status : 400,
+        detail : "kullanıcı bulunamadı"
+      }
     }
-    return result;
   }
 }
