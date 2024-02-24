@@ -78,6 +78,18 @@ export class ClientsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.clientsService.delete(id);
+    try {
+      this.clientsService.delete(id);
+      this.clientProperty.deleteProperties(id);
+      return {
+        status : 200,
+        detail : "Üye başarıyla silindi"
+      }
+    } catch (error) {
+      return {
+        status : "400",
+        detail : "Üye silinemedi. Lütfen yöneticinize başvurunuz => " + error 
+      }
+    }
   }
 }

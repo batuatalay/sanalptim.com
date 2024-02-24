@@ -24,4 +24,7 @@ UpdateClientPropertyDto> {
     await this.clientPropertyMongo.insertMany(body);
     return "Property Update Successfully";
   }
+  async deleteProperties (clientID : string) {
+    await this.clientPropertyMongo.deleteMany({"client_id" : clientID});
+  }
 }
