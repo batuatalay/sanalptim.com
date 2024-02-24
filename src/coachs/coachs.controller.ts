@@ -13,7 +13,20 @@ export class CoachsController {
     ) {}
 
   @Post()
-  create(@Body() createCoachDto: CreateCoachDto) {
+  async create(@Body() createCoachDto: CreateCoachDto) {
+    let usernameExist = await this.coachsService.findByUsername(createCoachDto.username);
+    let mailExist = await this.coachsService.findByMail(createCoachDto.mail);
+    if(usernameExist.status == 200) {
+      return {
+        status : 400,
+        detail : "Bu kullanıcı adında kullanıcı mevcut lütfen başka bir kullanıcı adı kullanınız"
+      };
+    } else if (mailExist.status == 200) {
+      return {
+        status : 400,
+        detail : "Bu mail adresinde kullanıcı mevcut lütfen başka bir mail adresi kullanınız"
+      };
+     }
     return this.coachsService.create(createCoachDto);
   }
 
@@ -37,10 +50,27 @@ export class CoachsController {
         return this.coachsService.findByStatus(body.value);
       case "workout":
         return this.coachsService.findWorkoutByCoachID(body.value);
+      case "mail":
+        return this.coachsService.findByMail(body.value);
+      case "username":
+        return this.coachsService.findByUsername(body.value);
     }
   }
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCoachDto: UpdateCoachDto) {
+  async update(@Param('id') id: string, @Body() updateCoachDto: UpdateCoachDto) {
+    let usernameExist = await this.coachsService.findByUsername(updateCoachDto.username);
+    let mailExist = await this.coachsService.findByMail(updateCoachDto.mail);
+    if(usernameExist.status == 200 && usernameExist.coach._id.toString() != id) {
+      return {
+        status : 400,
+        detail : "Bu kullanıcı adında kullanıcı mevcut lütfen başka bir kullanıcı adı kullanınız"
+      };
+    } else if (mailExist.status == 200 && mailExist.coach._id.toString() != id) {
+      return {
+        status : 400,
+        detail : "Bu mail adresinde kullanıcı mevcut lütfen başka bir mail adresi kullanınız"
+      };
+     }
     return this.coachsService.update(id, updateCoachDto);
   }
 
