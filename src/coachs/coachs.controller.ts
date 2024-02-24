@@ -76,6 +76,17 @@ export class CoachsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.coachsService.delete(id);
+    try {
+      this.coachsService.delete(id);
+      return {
+        status : 200,
+        detail : "Antranör başarıyla silindi"
+      }
+    } catch (error) {
+      return {
+        status : "400",
+        detail : "Antranör silinemedi. Lütfen yöneticinize başvurunuz"
+      }
+    }
   }
 }
