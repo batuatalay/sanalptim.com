@@ -36,4 +36,34 @@ UpdateCoachDto> {
     }));
     return workouts;
   }
+
+  async findByUsername (username : string) {
+    let coach= await this.coachMongo.find({"username" : username});
+    if(coach.length>0) {
+      return {
+        status : 200,
+        coach : coach[0]
+      };
+    } else {
+      return {
+        status : 400,
+        detail : "Antranör Bulunamadı"
+      };
+    }
+  }
+
+  async findByMail (mail : string) {
+    let coach= await this.coachMongo.find({"mail" : mail});
+    if(coach.length>0) {
+      return {
+        status : 200,
+        coach : coach[0]
+      };
+    } else {
+      return {
+        status : 400,
+        detail : "Antranör Bulunamadı"
+      };
+    }
+  }
 }
