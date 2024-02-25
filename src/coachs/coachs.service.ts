@@ -6,6 +6,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { WorkoutsService } from 'src/workouts/workouts.service';
 import { ClientsService } from 'src/clients/clients.service';
+import environment from 'environment';
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const hashText = environment.hashText;
 
 @Injectable()
 export class CoachsService extends ResourceService<
@@ -66,4 +71,19 @@ UpdateCoachDto> {
       };
     }
   }
+
+  async convertToHash (value : string) {
+    let hashedPwd;
+    await bcrypt.hash(environment.hashText + value , saltRounds).then(hash =>{
+      hashedPwd = hash
+    });
+    return await hashedPwd;
+  }
+
+  async compareHashes (password : string , hash : string) {
+    const match = await bcrypt.compareSync(environment.hashText+password, hash);
+    return await match;
+  }
+
+
 }

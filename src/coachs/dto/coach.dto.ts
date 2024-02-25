@@ -19,3 +19,8 @@ export class UpdateCoachDto {
     last_login : Date;
     image : string;
 }
+
+export class LoginCoachDto {
+    username : string;
+    password : string;
+}
