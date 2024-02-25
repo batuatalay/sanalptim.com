@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CoachsService } from './coachs.service';
 import { CoachsController } from './coachs.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CoachSchema } from './model/coach.model';
+import { CoachSchema, coachModel } from './model/coach.model';
 import { WorkoutsModule } from 'src/workouts/workouts.module';
 import { ClientsModule } from 'src/clients/clients.module';
 
@@ -13,6 +13,7 @@ import { ClientsModule } from 'src/clients/clients.module';
     ClientsModule
   ],
   controllers: [CoachsController],
-  providers: [CoachsService]
+  providers: [CoachsService],
+  exports : [CoachsService, CoachsModule]
 })
 export class CoachsModule {}

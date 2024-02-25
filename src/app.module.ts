@@ -8,6 +8,7 @@ import { CoachsModule } from './coachs/coachs.module';
 import { MovesModule } from './moves/moves.module';
 import environment from 'environment';
 import { WorkoutsModule } from './workouts/workouts.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { WorkoutsModule } from './workouts/workouts.module';
     ClientPropertiesModule,
     CoachsModule,
     MovesModule,
-    WorkoutsModule
+    WorkoutsModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],

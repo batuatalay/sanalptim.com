@@ -16,6 +16,7 @@ export class CoachsController {
   async create(@Body() createCoachDto: CreateCoachDto) {
     let usernameExist = await this.coachsService.findByUsername(createCoachDto.username);
     let mailExist = await this.coachsService.findByMail(createCoachDto.mail);
+    createCoachDto.password = await this.coachsService.convertToHash(createCoachDto.password);
     if(usernameExist.status == 200) {
       return {
         status : 400,
@@ -29,7 +30,7 @@ export class CoachsController {
      }
     return this.coachsService.create(createCoachDto);
   }
-
+ 
   @Get()
   async get(@Query() body: any) {
     /*
