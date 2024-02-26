@@ -1,6 +1,8 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { CoachsService } from 'src/coachs/coachs.service';
 import { LoginCoachDto } from 'src/coachs/dto/coach.dto'; 
+import * as jwt from 'jsonwebtoken';
+import environment from 'environment';
 
 @Injectable()
 export class LoginService {
@@ -17,15 +19,18 @@ export class LoginService {
           (response) => checkPwd = response
         )
         if(checkPwd) {
-          const result = {
-            code :200,
-            value : {username : findCoach.coach.username, status : findCoach.coach.status}
-          }
-          return result;
+          const constAuthJwtToken = jwt.sign(
+            {username : findCoach.coach.username, status : findCoach.coach.status},
+            environment.jwtText,
+            {expiresIn: '6h' });
+          return {
+            status : 200,
+            value : constAuthJwtToken
+          };
         } else {
           return {
             status : 401,
-            value : "User's password is incoorect"
+            value : "User's password is incorrect"
           }
         }
         

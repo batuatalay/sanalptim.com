@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { HttpStatus, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule } from './clients/clients.module';
@@ -8,6 +8,7 @@ import { CoachsModule } from './coachs/coachs.module';
 import { MovesModule } from './moves/moves.module';
 import environment from 'environment';
 import { WorkoutsModule } from './workouts/workouts.module';
+import { TokenMiddleware } from 'libs/middleware/token.middleware';
 import { LoginModule } from './login/login.module';
 
 @Module({
@@ -23,4 +24,10 @@ import { LoginModule } from './login/login.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(TokenMiddleware)
+    .forRoutes({ path : "*", method: RequestMethod.ALL });
+  }
+}
