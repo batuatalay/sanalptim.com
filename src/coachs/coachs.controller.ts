@@ -72,6 +72,7 @@ export class CoachsController {
         detail : "Bu mail adresinde kullanıcı mevcut lütfen başka bir mail adresi kullanınız"
       };
      }
+     updateCoachDto.password = await this.coachsService.convertToHash(updateCoachDto.password);
     return this.coachsService.update(id, updateCoachDto);
   }
 
