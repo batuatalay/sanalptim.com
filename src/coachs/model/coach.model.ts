@@ -8,7 +8,7 @@ export class coachModel {
     password : string;
     status : string;
     created_at : Date;
-    last_login : string;
+    last_login : Date;
     image : string;
 }
 

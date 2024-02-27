@@ -23,8 +23,12 @@ export class LoginService {
             {username : findCoach.coach.username, status : findCoach.coach.status},
             environment.jwtText,
             {expiresIn: '6h' });
+            let currentDate = new Date();
+            findCoach.coach.last_login = currentDate;
+            findCoach.coach.save();
           return {
             status : 200,
+            type : findCoach.coach.status,
             value : constAuthJwtToken
           };
         } else {
@@ -43,5 +47,5 @@ export class LoginService {
         value : "User doesn't exist"
       }
     }
-  }
+  } 
 }
