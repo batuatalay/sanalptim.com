@@ -36,5 +36,10 @@ UpdateMoveDto
     }));
     return result;
   }
+
+  async findParentMoves () {
+    let moves = await this.moveMongo.find({'parent_id': ""});
+    return moves;
+  }
   
 }
