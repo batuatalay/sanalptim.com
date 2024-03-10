@@ -7,7 +7,14 @@ export class MovesController {
   constructor(private readonly movesService: MovesService) {}
 
   @Post()
-  create(@Body() createMoveDto: CreateMoveDto) {
+  async create(@Body() createMoveDto: CreateMoveDto) {
+    const move = await this.movesService.findByCode(createMoveDto.code);
+    if(move.length > 0) {
+      return {
+        code : "400",
+        detail : "this code already exist"
+      }
+    }
     return this.movesService.create(createMoveDto);
   }
   @Get()
@@ -29,6 +36,8 @@ export class MovesController {
         return this.movesService.find(body.value);
       case 'category':
         return this.movesService.findByParentID(body.value);
+      case 'parentMoves':
+        return this.movesService.findParentMoves();
       case 'all':
         return this.movesService.findAll();
     }
